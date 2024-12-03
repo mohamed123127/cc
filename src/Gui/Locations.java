@@ -1,31 +1,25 @@
 package Gui;
 
-import javax.swing.*;
 import java.awt.*;
-
-import Entities_CRUD.User_CRUD;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import org.jdatepicker.impl.*;
-
-
-import components.DataGridView;
+import javax.swing.*;
 
 public class Locations extends JFrame{
       
+    public boolean ToSelectClient = false;
+    
     public Locations(){
 
        setTitle("Add Laction");
        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        setSize(600, 400);
-       
-      
-       
+       //set frame content
        JPanel panel= new JPanel(new FlowLayout(FlowLayout.LEFT));
-
        JButton selectClient = new JButton("select Client");
-       
+       selectClient.addActionListener(e -> {
+        new temp1_customerstest();
+       });
+       JTextField SelectedClient = new JTextField(15);
        JComboBox<String> selectCar = new JComboBox<>(new String[]{"Car 1", "Car 2", "Car 3"});
 
        JLabel dateFin = new JLabel("la date de fin :");
@@ -34,6 +28,7 @@ public class Locations extends JFrame{
        dateField.setColumns(10);
       
        panel.add(selectClient);
+       panel.add(SelectedClient);
        panel.add(selectCar);
        panel.add(dateFin);
        panel.add(dateField);

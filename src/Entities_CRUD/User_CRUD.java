@@ -1,8 +1,8 @@
 package Entities_CRUD;
 
 import Helpers.DbOperation;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
 public class User_CRUD {
 
@@ -19,13 +19,9 @@ public class User_CRUD {
         }
     }
 
-    public static JTable GetData() {
+    public static ResultSet GetData() {
         DbOperation db = new DbOperation();
-        boolean isSuccessful ;
-        if(isSuccessful){
-            JOptionPane.showMessageDialog(null, "Good");
-        }else{
-            JOptionPane.showMessageDialog(null, "Bad");
-        }
+        ResultSet result = db.GetData("*", "utilisateur");
+        return result;
     }
 }
