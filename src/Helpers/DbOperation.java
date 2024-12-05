@@ -33,6 +33,23 @@ public class DbOperation {
         }
     }
 
+    public ResultSet GetData(String columns,String tableName,String JoinQuery)
+    {
+        try 
+        {
+            query = "SELECT " + columns + " FROM " + tableName + " " + JoinQuery;
+            //JOptionPane.showMessageDialog(null, query);
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery(query);
+            return result;
+        } 
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null, "Une erreur s'est produite lors de la récupération des données : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
     public ResultSet GetFilltredData(String columns,String tableName,String condition)
     {
         try 

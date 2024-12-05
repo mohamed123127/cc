@@ -5,7 +5,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class Converter {
-    public void displayInTable(Resultset data) {
+    /*public void displayInTable(Resultset data) {
         try {
             // Create TableModel
             DefaultTableModel model = new DefaultTableModel();
@@ -35,5 +35,5 @@ public class Converter {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error fetching data: " + e.getMessage());
         }
-    }
+    }*/
 }

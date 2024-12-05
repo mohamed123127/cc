@@ -1,8 +1,6 @@
 package Gui;
 
 import Entities_CRUD.User_CRUD;
-import components.DataGridView;
-import java.awt.*;
 import java.sql.ResultSet;
 import javax.swing.*;
 
@@ -18,12 +16,12 @@ public class temp1_customerstest extends JFrame{
         ResultSet data = User_CRUD.GetData();
 
        //create data grid view
-        DataGridView  grid = new DataGridView (columnNames, data);
+        /*DataGridView  grid = new DataGridView (columnNames, data);
         grid.setBounds(20, 20, 550, 250);
 
         setLayout(new BorderLayout());
         add(grid, BorderLayout.CENTER);
-        setVisible(true);
+        setVisible(true);*/
     }
 
     public static void main(String[] args) {

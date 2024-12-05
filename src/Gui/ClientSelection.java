@@ -1,8 +1,8 @@
 package Gui;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
+import javax.swing.*;
 
 public class ClientSelection extends JFrame {
     public ClientSelection(Consumer<String> onClientSelected) {

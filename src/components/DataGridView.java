@@ -1,81 +1,87 @@
 package components;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
-public class  DataGridView extends JPanel {
+public class DataGridView extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
 
-  
-    public DataGridView(String[] columnNames, ResultSet data,ValueWrapper<String> wrapper) {
+    // Constructor without ActionListener
+    public DataGridView(String[] columnNames, ResultSet data) {
         setLayout(new BorderLayout());
-
+        //table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableModel = new DefaultTableModel(columnNames,0){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // All cells are non-editable
             }
         };
-
+        
         table = new JTable(tableModel);    
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         SetDataSource(data);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
          // Add MouseListener for double-click
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Check for double-click
-                if (e.getClickCount() == 2) {
-                    rowDoubleClickEvent();
-                }
-            }
-        });
+        
 
         JScrollPane scrollPane = new JScrollPane(table); 
 
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    // Method to add a row
     public void addRow(Object[] rowData) {
         tableModel.addRow(rowData);
     }
 
-    public void SetDataSource(ResultSet data){
+    public void SetDataSource(ResultSet data) {
         try {
-            if(data != null){
-        tableModel.setRowCount(0); 
-        ResultSetMetaData metaData = data.getMetaData();
-        int columnCount = metaData.getColumnCount();
+            if (data != null) {
+                tableModel.setRowCount(0); // Clear existing data
+                ResultSetMetaData metaData = data.getMetaData();
+                int columnCount = metaData.getColumnCount();
 
-        // Add rows to the table model
-        int rowNbr = 1;
-        while (data.next()) {
-            Object[] row = new Object[columnCount];
-            row[0] = rowNbr;
-            for (int i = 1; i <= columnCount; i++) {
-                row[i - 1] = data.getObject(i); // ResultSet columns are 1-based
+                // Add rows to the table model
+                int rowNbr = 1;
+                while (data.next()) {
+                    Object[] row = new Object[columnCount];
+                    row[0] = rowNbr;
+                    for (int i = 1; i <= columnCount; i++) {
+                        row[i - 1] = data.getObject(i); // ResultSet columns are 1-based
+                    }
+                    tableModel.addRow(row);
+                    rowNbr++;
+                }
             }
-            tableModel.addRow(row);
-            rowNbr++;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error populating table: " + e.getMessage());
         }
     }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error populating table: " + e.getMessage());
-    }
-}  
 
- 
-   
+    public Object[] getSelectedRowData() {
+        int selectedRow = table.getSelectedRow();  // Get the index of the selected row
+        // Ensure that a row is selected
+        if (selectedRow != -1) {
+            int columnCount = table.getColumnCount();
+            Object[] rowData = new Object[columnCount];
+    
+            // Loop through each column to retrieve the value for the selected row
+            for (int column = 0; column < columnCount; column++) {
+                rowData[column] = table.getValueAt(selectedRow, column);
+            }
+    
+            return rowData;  // Return the data as an array of objects
+        } else {
+            //System.out.println("No row selected");
+            return null;  // Return null if no row is selected
+        }
+    }
+    
+
 }
