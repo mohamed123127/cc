@@ -76,15 +76,9 @@ public class Locations extends JFrame {
         add(panel, BorderLayout.NORTH);
 
         // الجدول
-        String[] columnNames = {"id_reservation","nom","statut" , "montant_total", "date_debut", "date_fin" };
-        /*Object[][] data = {
-            {1, "moh", "30/11/2024", "05/12/2024", "en cour", "15 000 DA"},
-            {99, "nazim", "10/11/2024", "25/11/2024", "en cour", "25 000 DA"}
-        };*/
+        String[] columnNames = {"id_reservation","client","voiture","statut" , "montant_total", "date_debut", "date_fin","clientId","carId" };
         ResultSet data = Locations_CRUD.GetAll();
-        
-        
-        DataGridView = new DataGridView(columnNames, data);
+        DataGridView = new DataGridView(columnNames, data,new int[]{7,8});
         add(DataGridView, BorderLayout.CENTER);
 
         setVisible(true);

@@ -1,5 +1,6 @@
 package Gui;
 
+import Entities_CRUD.Historique_CRUD;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -49,16 +50,25 @@ public class CarDamageEvaluation extends JFrame{
         Container C3 = new Container();
         C3.setLayout(new FlowLayout(FlowLayout.CENTER));
         JButton addButton = new JButton("add");
+        addButton.addActionListener(e ->{
+            //Float amountSupplementere = Float.parseFloat(textField1.getText());
+            //Float TotalPrice = amountSupplementere + Float.parseFloat(LocationData[4].toString());
+            int clientId = Integer.parseInt(LocationData[7].toString());
+            int carId = Integer.parseInt(LocationData[8].toString());
+            String carStatus = comboBox.getSelectedItem().toString();
+            int additionalAmount = Integer.parseInt(textField1.getText());
+            int totalAmount = Integer.parseInt(LocationData[4].toString());
+            String dateDebut = LocationData[5].toString();
+            Historique_CRUD.add(clientId,carId,carStatus,additionalAmount,additionalAmount + totalAmount,dateDebut);
+            dispose();
+        });
         JButton closeButton = new JButton("close");
+        closeButton.addActionListener(e->{
+            dispose();
+        });
         C3.add(addButton);
         C3.add(closeButton);
         mainContainer.add(C3,BorderLayout.SOUTH);
-
-        JOptionPane.showMessageDialog(null, "Client Name : " + LocationData[1]);
     }
 
-    public static void main(String[] args) {
-        //CarDamageEvaluation instance = new CarDamageEvaluation(null);
-        //instance.setVisible(true);
-    }
 }

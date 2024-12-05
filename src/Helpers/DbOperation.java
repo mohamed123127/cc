@@ -1,6 +1,9 @@
 package Helpers;
 
 import Config.Database;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,6 +73,14 @@ public class DbOperation {
         try 
         {
             query = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + values + ")";
+            StringSelection stringSelection = new StringSelection(query);
+        
+        // Get the system clipboard
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        
+        // Set the content of the clipboard
+            //clipboard.setContents(stringSelection, null);
+            //JOptionPane.showMessageDialog(null, query);
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             int rowsInserted = preparedStatement.executeUpdate();
             return rowsInserted > 0;

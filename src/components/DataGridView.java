@@ -35,8 +35,24 @@ public class DataGridView extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
+    public DataGridView(String[] columnNames, ResultSet data,int[] hiddenColumnIndex) {
+        this(columnNames, data);  
+
+        for (int index : hiddenColumnIndex) {
+            if (index >= 0 && index < table.getColumnCount()) {
+                table.getColumnModel().getColumn(index).setMinWidth(0);
+                table.getColumnModel().getColumn(index).setMaxWidth(0);
+                table.getColumnModel().getColumn(index).setWidth(0);
+                table.getColumnModel().getColumn(index).setResizable(false);
+            }
+        }
+    }
     public void addRow(Object[] rowData) {
         tableModel.addRow(rowData);
+    }
+
+    public void removeRow(int rowIndex) {
+        tableModel.removeRow(rowIndex);
     }
 
     public void SetDataSource(ResultSet data) {
