@@ -16,7 +16,7 @@ public class ClientSelection extends JFrame {
         clientList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(clientList);
 
-        
+         
         JButton confirmButton = new JButton("Confirm Selection");
         confirmButton.addActionListener(e -> {
             String selectedClient = clientList.getSelectedValue();
