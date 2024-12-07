@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 
 public class Locations extends JFrame {
     private JLabel selectedClientLabel; // لعرض اسم العميل المختار
-    private DataGridView DataGridView;
+    public DataGridView DataGridView;
 
     public Locations() {
         setTitle("Add Location");
@@ -56,8 +56,9 @@ public class Locations extends JFrame {
         returnCarButton.addActionListener(e->{
             var selectedRow = DataGridView.getSelectedRowData();
             if(selectedRow != null){
-                CarDamageEvaluation instance = new CarDamageEvaluation(selectedRow);
+                CarDamageEvaluation instance = new CarDamageEvaluation(selectedRow,this);
                 instance.setVisible(true);
+                JOptionPane.showMessageDialog(null, "s");
             }else{
                 JOptionPane.showMessageDialog(null, "Not selected row");
             }

@@ -42,6 +42,13 @@ public class DbOperation {
         {
             query = "SELECT " + columns + " FROM " + tableName + " " + JoinQuery;
             //JOptionPane.showMessageDialog(null, query);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        // إنشاء كائن StringSelection يحتوي على النص
+        StringSelection selection = new StringSelection(query);
+
+        // وضع النص في الحافظة
+        clipboard.setContents(selection, null);
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery(query);
             return result;
@@ -87,7 +94,11 @@ public class DbOperation {
         }
         catch (Exception e) 
         {
+            String errorMessage = "Une erreur s'est produite lors de la insertion des données : \n" + "query: " + query + "\n error message: " + e.getMessage();
             JOptionPane.showMessageDialog(null,"Une erreur s'est produite lors de la insertion des données : \n" + "query: " + query + "\n error message: " + e.getMessage() ,"Erreur" , JOptionPane.ERROR_MESSAGE);
+            StringSelection stringSelection = new StringSelection(errorMessage);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
             return false;
         }
 }
