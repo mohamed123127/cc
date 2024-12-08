@@ -1,13 +1,10 @@
 package Gui;
 
-import javax.swing.*;
-import java.awt.*;
-
 import Entities_CRUD.User_CRUD;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import components.DataGridView;
+import java.awt.*;
+import java.sql.ResultSet;
+import javax.swing.*;
 
 public class User extends JFrame {
     public User() {
@@ -15,18 +12,13 @@ public class User extends JFrame {
         setTitle("Add User");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
-      
+        
+        String[] columnNames = {"#","Nom", "Prenom", "Email","Mot de passe","Role"};
 
        
-        String[] columnNames = {"ID", "Name", "Email", "Role"};
+        ResultSet data = User_CRUD.GetData();
 
-       
-        Object[][] data = {
-            {1, "moh", "wshhhhh@gmail.com", "User"},
-            {2, "nazim", "ben@gmail.com", "User"}
-        };
-
-       
+       //create data grid view
         DataGridView  grid = new DataGridView (columnNames, data);
         grid.setBounds(20, 20, 550, 250);
 
