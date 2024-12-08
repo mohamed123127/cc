@@ -4,24 +4,24 @@ import java.awt.*;
 import javax.swing.*;
 
 public class TextFieldStyle1 extends JTextField {
-    public TextFieldStyle1(int columns) {
-        super(columns);
+    public TextFieldStyle1() {
+        super();
         
         // تخصيص الحقل
         setBackground(new Color(240, 240, 240)); // خلفية فاتحة
         setForeground(new Color(0, 0, 0)); // نص باللون الأسود
         setFont(new Font("Arial", Font.PLAIN, 16)); // خط بسيط
         
-        setPreferredSize(new Dimension(100, 25));
+        setPreferredSize(new Dimension(200, 25));
 
         // إلغاء الحدود الافتراضية
         setBorder(BorderFactory.createLineBorder(new Color(0, 102, 204), 1));
 
-        // إضافة Padding من الجهة اليسرى فقط
-        //setMargin(new Insets(0, 10, 0, 0)); // (top, left, bottom, right)
-        //BorderFactory.createEmptyBorder(5, 50, 5, 5);
     }
-
+    public TextFieldStyle1(int width,int height){
+        super();
+        setPreferredSize(new Dimension(width,height));
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

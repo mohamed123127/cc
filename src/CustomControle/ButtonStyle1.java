@@ -13,7 +13,9 @@ public class ButtonStyle1 extends JButton {
         setContentAreaFilled(false);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         // تعيين حجم مفضل للزر
-        setPreferredSize(new Dimension(150, 50));
+        setPreferredSize(new Dimension(100, 30));
+        setHorizontalAlignment(SwingConstants.CENTER);  // المحاذاة الأفقية
+        setVerticalAlignment(SwingConstants.CENTER);    // المحاذاة الرأسية
     }
 
     @Override

@@ -1,14 +1,11 @@
 package Gui;
 
+import CustomControle.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import CustomControle.LabelStyle1;
-import CustomControle.ButtonStyle1;
-import CustomControle.TextFieldStyle1;
 
 
 public class test {
@@ -26,12 +23,16 @@ public class test {
         ButtonStyle1 returnButton = new ButtonStyle1("Return Car");
 
         // إنشاء حقل النص المخصص
-        TextFieldStyle1 carIdField = new TextFieldStyle1(20);
-        TextFieldStyle1 customerNameField = new TextFieldStyle1(20);
+        TextFieldStyle1 carIdField = new TextFieldStyle1();
+        TextFieldStyle1 customerNameField = new TextFieldStyle1(200,25);
 
         // إنشاء تسمية مخصصة
-        LabelStyle1 carIdLabel = new LabelStyle1("Car ID:",100,50);
+        LabelStyle1 carIdLabel = new LabelStyle1("Car ID:");
         LabelStyle1 customerNameLabel = new LabelStyle1("Customer Name:");
+
+        LabelStyle1 SlectLabel = new LabelStyle1("Chouse:");
+        String[] items = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5"};
+        ComboBoxStyle1 comboBox = new ComboBoxStyle1(items);
         // تخصيص Layout
         frame.setLayout(new FlowLayout());
 
@@ -40,6 +41,8 @@ public class test {
         frame.add(carIdField);
         frame.add(customerNameLabel);
         frame.add(customerNameField);
+        frame.add(SlectLabel);
+        frame.add(comboBox);
         frame.add(rentButton);
         frame.add(returnButton);
 

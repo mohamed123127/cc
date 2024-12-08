@@ -19,14 +19,6 @@ public class LabelStyle1 extends JLabel {
 
     public LabelStyle1(String text,int Width,int Height) {
         super(text); // النص الأساسي للتسمية
-
-        // تخصيص النص والخلفية
-        setFont(new Font("Arial", Font.BOLD, 16));
-        setForeground(new Color(0, 102, 204)); // اللون الأزرق
-        setBackground(new Color(245, 245, 245)); // خلفية فاتحة
-        setOpaque(true); // لجعل الخلفية مرئية
         setPreferredSize(new Dimension(Width, Height));
-        setHorizontalAlignment(SwingConstants.LEFT); // محاذاة النص إلى اليسار
-        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // إضافة مسافة داخلية
     }
 }
