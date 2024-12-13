@@ -11,6 +11,8 @@ public class DataGridView extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
 
+    
+
     // Constructor without ActionListener
     public DataGridView(String[] columnNames, ResultSet data) {
         setLayout(new BorderLayout());
