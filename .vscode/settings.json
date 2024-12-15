@@ -5,6 +5,9 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib\\mysql-connector-j-9.1.0.jar",
-        "c:\\Users\\DELL\\Desktop\\tous\\University\\L3\\S5\\IHM\\Projet\\Project-Code\\CarLocation\\lib\\mysql-connector-j-9.1.0.jar"
-    ]
+        "c:\\Users\\DELL\\Desktop\\tous\\University\\L3\\S5\\IHM\\Projet\\Project-Code\\CarLocation\\lib\\mysql-connector-j-9.1.0.jar",
+        "libs/jfreechart-1.5.3.jar"
+    ],
+
+  
 }
