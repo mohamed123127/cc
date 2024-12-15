@@ -7,6 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
@@ -74,6 +75,26 @@ public class DbOperation {
             JOptionPane.showMessageDialog(null, "Une erreur s'est produite lors de la récupération des données \nSelect phrase: " + query + "\nerror message: " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+    }
+
+    public String isExists(String email, String password) {
+        String query = "SELECT role FROM utilisateur WHERE email = ? AND mot_de_passe = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("role");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public boolean Insert(String tableName,String columns, String values){

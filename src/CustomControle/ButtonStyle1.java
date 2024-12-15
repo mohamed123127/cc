@@ -18,6 +18,10 @@ public class ButtonStyle1 extends JButton {
         setVerticalAlignment(SwingConstants.CENTER);    // المحاذاة الرأسية
     }
 
+    public ButtonStyle1(String text,Color color) {
+        setBackground(color);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         // تخصيص مظهر الزر
