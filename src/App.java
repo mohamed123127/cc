@@ -1,10 +1,10 @@
-import Gui.User;
-import Gui.Locations;
+
+import Gui.*;
 
 public class App {
+
     public static void main(String[] args) throws Exception {
-        new User();
-       
-        
+      //  new Locations();
+       new Car();
     }
 }

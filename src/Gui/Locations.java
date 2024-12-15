@@ -2,57 +2,107 @@ package Gui;
 
 import javax.swing.*;
 import java.awt.*;
-
-import Entities_CRUD.User_CRUD;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-
+import java.sql.ResultSet;
+import Entities_CRUD.Locations_CRUD;
 import components.DataGridView;
+import CustomControle.*;
+import java.awt.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import javax.swing.*;
 
-public class Locations extends JFrame{
-      
-    public Locations(){
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
-       setTitle("Add Laction");
-       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       setSize(600, 400);
+public class Locations extends JFrame {
+
+    private JLabel selectedClientLabel; // لعرض اسم العميل المختار
+    public DataGridView DataGridView;
+
+    public Locations() {
+        setTitle("Ajouter une réservation");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000, 500);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        this.setBackground(new Color(245, 245, 245));
+
+        TextFieldStyle1 searchTextField = new TextFieldStyle1();
+     
+        ButtonStyle1 addButton = new ButtonStyle1("Ajouter ");
+        addButton.addActionListener(e -> {
+        
+             new AddLocations(this);
+            
+        });
+        ButtonStyle1 deleteButton= new ButtonStyle1("supprimer");
+        deleteButton.addActionListener(e -> {
+            var selectedRow = DataGridView.getSelectedRowData();
+
+            if (selectedRow != null) {
+               
+                String idReservation = String.valueOf(selectedRow[0]); 
+        
+                int confirmation = JOptionPane.showConfirmDialog(
+                    this,
+                    "Voulez-vous vraiment supprimer cette réservation ?",  // Message de confirmation en français
+                    "Confirmation de suppression",  // Titre de la boîte de dialogue en français
+                    JOptionPane.YES_NO_OPTION  // Options Oui et Non
+                );
+        
+                if (confirmation == JOptionPane.YES_OPTION) {
+                    
+                    String condition = "id_reservation = " + idReservation;
+                    boolean result = Locations_CRUD.Delete("reservation", condition);
+        
+                    if (result) {
+                    
+                        JOptionPane.showMessageDialog(this, "Suppression réussie !");
+                      
+                      ResultSet data = Locations_CRUD.GetAll();
+             
+                      DataGridView.SetDataSource(data);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "La réservation n'a pas été supprimée.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Aucune ligne sélectionnée pour la suppression !", "Erreur", JOptionPane.WARNING_MESSAGE);
+          if(selectedRow != null){
+                CarDamageEvaluation instance = new CarDamageEvaluation(selectedRow,this);
+                instance.setVisible(true);
+                JOptionPane.showMessageDialog(null, "s");
+            }else{
+                JOptionPane.showMessageDialog(null, "Not selected row");
+
+            }
+        }});
+
+
+     
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.add(searchTextField);
+        topPanel.add(addButton);
+        topPanel.add(deleteButton);
        
-      
-       
-       JPanel panel= new JPanel(new FlowLayout(FlowLayout.LEFT));
+        add(topPanel, BorderLayout.NORTH);
 
-       JButton selectClient = new JButton("select Client");
-       
-       JComboBox<String> selectCar = new JComboBox<>(new String[]{"Car 1", "Car 2", "Car 3"});
-
-       JLabel dateFin = new JLabel("la date de fin :");
-       SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-       JFormattedTextField dateField = new JFormattedTextField(dateFormat);
-       dateField.setColumns(10);
-      
-       panel.add(selectClient);
-       panel.add(selectCar);
-       panel.add(dateFin);
-       panel.add(dateField);
     
-       add(panel, BorderLayout.NORTH);
+        ResultSet data = Locations_CRUD.GetAll(); 
+        String[] columnNames = {"id_reservation", "client", "voiture", "statut", "montant_total", "date_debut", "date_fin", "clientId", "carId"};
+        DataGridView = new DataGridView(columnNames, data);
+        
        
 
+        add(DataGridView, BorderLayout.CENTER);
 
-
-
-
-
-
-        this.setVisible(true);
-
-
-      
-
+        setVisible(true);
     }
+
     public static void main(String[] args) {
-        new Locations();
+        SwingUtilities.invokeLater(() -> new Locations());
     }
-    
 }
+
