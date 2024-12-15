@@ -30,12 +30,7 @@ public class Payment extends JFrame {
 
         // Date Picker
         JLabel dateLabel = new JLabel("Date de Paiement:");
-        Properties properties = new Properties();
-        properties.put("text.today", "Aujourd'hui");
-        properties.put("text.month", "Mois");
-        properties.put("text.year", "Année");
-        JDatePanelImpl datePanel = new JDatePanelImpl(new UtilDateModel(), properties);
-        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+   
 
         // Mode de Paiement (Dropdown)
         JLabel modePaiementLabel = new JLabel("Mode de Paiement:");
@@ -49,7 +44,7 @@ public class Payment extends JFrame {
         add(montantLabel);
         add(montantField);
         add(dateLabel);
-        add(datePicker);
+    
         add(modePaiementLabel);
         add(modePaiementComboBox);
         add(new JLabel()); // Empty space

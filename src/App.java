@@ -1,6 +1,5 @@
 
-import Gui.AddLocations;
-import Gui.Locations;
+import Gui.*;
 
 public class App {
 
