@@ -48,5 +48,7 @@ public class Locations_CRUD {
         db.Update("reservation","statut='" + statut + "'","id_reservation=" + id_reservation);
     }
 
-
+    public static String IsExsists(String email,String Password){
+        return db.isExists(email, Password);
+    }
 }

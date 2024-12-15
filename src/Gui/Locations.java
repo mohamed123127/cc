@@ -6,6 +6,14 @@ import java.sql.ResultSet;
 import Entities_CRUD.Locations_CRUD;
 import components.DataGridView;
 import CustomControle.*;
+import java.awt.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import javax.swing.*;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class Locations extends JFrame {
 
@@ -13,7 +21,7 @@ public class Locations extends JFrame {
     public DataGridView DataGridView;
 
     public Locations() {
-        setTitle("Add Location");
+        setTitle("Ajouter une réservation");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 500);
         setLocationRelativeTo(null);
@@ -97,3 +105,4 @@ public class Locations extends JFrame {
         SwingUtilities.invokeLater(() -> new Locations());
     }
 }
+

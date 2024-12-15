@@ -17,6 +17,10 @@ public class LabelStyle1 extends JLabel {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // إضافة مسافة داخلية
     }
 
+    public LabelStyle1(String text,Color color) {
+        super(text);
+        setForeground(color);
+    }
     public LabelStyle1(String text,int Width,int Height) {
         super(text); // النص الأساسي للتسمية
         setPreferredSize(new Dimension(Width, Height));
