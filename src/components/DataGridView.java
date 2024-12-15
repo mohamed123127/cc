@@ -11,32 +11,33 @@ public class DataGridView extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
 
+    
+
     // Constructor without ActionListener
     public DataGridView(String[] columnNames, ResultSet data) {
         setLayout(new BorderLayout());
-        //table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tableModel = new DefaultTableModel(columnNames,0){
+        // table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // All cells are non-editable
             }
         };
-        
-        table = new JTable(tableModel);    
+
+        table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         SetDataSource(data);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-         // Add MouseListener for double-click
-        
+        // Add MouseListener for double-click
 
-        JScrollPane scrollPane = new JScrollPane(table); 
+        JScrollPane scrollPane = new JScrollPane(table);
 
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public DataGridView(String[] columnNames, ResultSet data,int[] hiddenColumnIndex) {
-        this(columnNames, data);  
+    public DataGridView(String[] columnNames, ResultSet data, int[] hiddenColumnIndex) {
+        this(columnNames, data);
 
         for (int index : hiddenColumnIndex) {
             if (index >= 0 && index < table.getColumnCount()) {
@@ -47,6 +48,24 @@ public class DataGridView extends JPanel {
             }
         }
     }
+
+    public DataGridView(String[] columnNames, Object[][] data) {
+        // تحقق من أن أسماء الأعمدة والبيانات ليست null
+        if (columnNames == null || data == null) {
+            columnNames = new String[0];
+            data = new Object[0][0];
+        }
+
+        // تهيئة DefaultTableModel
+        tableModel = new DefaultTableModel(data, columnNames);
+
+        // إنشاء JTable باستخدام tableModel
+        table = new JTable(tableModel);
+
+        // إعداد JScrollPane
+        // this.setViewportView(table);
+    }
+
     public void addRow(Object[] rowData) {
         tableModel.addRow(rowData);
     }
@@ -81,23 +100,22 @@ public class DataGridView extends JPanel {
     }
 
     public Object[] getSelectedRowData() {
-        int selectedRow = table.getSelectedRow();  // Get the index of the selected row
+        int selectedRow = table.getSelectedRow(); // Get the index of the selected row
         // Ensure that a row is selected
         if (selectedRow != -1) {
             int columnCount = table.getColumnCount();
             Object[] rowData = new Object[columnCount];
-    
+
             // Loop through each column to retrieve the value for the selected row
             for (int column = 0; column < columnCount; column++) {
                 rowData[column] = table.getValueAt(selectedRow, column);
             }
-    
-            return rowData;  // Return the data as an array of objects
+
+            return rowData; // Return the data as an array of objects
         } else {
-            //System.out.println("No row selected");
-            return null;  // Return null if no row is selected
+            // System.out.println("No row selected");
+            return null; // Return null if no row is selected
         }
     }
-    
 
 }
