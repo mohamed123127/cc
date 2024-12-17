@@ -3,6 +3,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Locations",
+            "request": "launch",
+            "mainClass": "Gui.Locations",
+            "projectName": "CarLocation_92ad6f6b"
+        },
+        {
+            "type": "java",
+            "name": "MainPage",
+            "request": "launch",
+            "mainClass": "Gui.MainPage",
+            "projectName": "CarLocation_92ad6f6b"
+        },
+        {
+            "type": "java",
             "name": "Launch Program",
             "request": "launch",
             "mainClass": "Gui.Statistiques",

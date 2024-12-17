@@ -90,7 +90,6 @@ public class Statistiques extends JFrame {
     // Switch center panel based on the ComboBox value
     private JPanel switchCenterPanel(String selected) {
         switch (selected) {
-            
             case "Vehicle Statistics":
                 return new StatistiquesVehicule().StatistiquesVehicule();
             case "Customer Statistics":
