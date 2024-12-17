@@ -1,24 +1,19 @@
 package Gui;
 
-import components.DataGridView;
 import CustomControle.ButtonStyle1;
 import CustomControle.ComboBoxStyle1;
 import CustomControle.LabelStyle1;
 import CustomControle.TextFieldStyle1;
 import Entities_CRUD.Car_CRUD;
-
-import javax.swing.*;
+import components.DataGridView;
 import java.awt.*;
 import java.sql.ResultSet;
+import javax.swing.*;
 
 public class Car extends JFrame {
 
+    public JPanel MainPanel;
     public Car() {
-        // Main window setup
-        this.setTitle("Console de gestion des voitures");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1000, 600);
-
         // Main panel creation
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -158,11 +153,16 @@ deleteButton.addActionListener(e -> {
         searchField.addActionListener(e -> performSearch(searchField.getText(), categoryComboBox.getSelectedItem().toString()));
         categoryComboBox.addActionListener(e -> performSearch(searchField.getText(), categoryComboBox.getSelectedItem().toString()));
 
-        // Set up and display the main window
-        this.add(mainPanel);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        MainPanel = mainPanel;
+        //setVisible(true);
+        
     }
+
+    public JPanel getMainPanel(){
+        return MainPanel;
+    }
+
+
 
     private void performSearch(String searchText, String category) {
         ResultSet data = Car_CRUD.GetFilteredData(searchText, category);

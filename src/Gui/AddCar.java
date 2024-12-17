@@ -1,13 +1,10 @@
 package Gui;
 
-import Helpers.DbOperation;
-import CustomControle.TextFieldStyle1;
-import Entities_CRUD.Car_CRUD;
-import Entities_CRUD.Locations_CRUD;
-import CustomControle.LabelStyle1;
-import CustomControle.ComboBoxStyle1;
 import CustomControle.ButtonStyle1;
-
+import CustomControle.ComboBoxStyle1;
+import CustomControle.LabelStyle1;
+import CustomControle.TextFieldStyle1;
+import Helpers.DbOperation;
 import java.awt.*;
 import javax.swing.*;
 
@@ -17,7 +14,6 @@ public class AddCar extends JFrame {
 
     public AddCar() {
         this.setTitle("Console de ajouter des voitures");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 600);
 
         UIManager.put("Panel.background", new Color(240, 244, 248));

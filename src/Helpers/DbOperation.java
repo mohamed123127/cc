@@ -1,16 +1,11 @@
 package Helpers;
 
 import Config.Database;
-
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class DbOperation {
@@ -93,26 +88,6 @@ public class DbOperation {
                             "Erreur", JOptionPane.ERROR_MESSAGE);
             return null;
         }
-    }
-
-    public String isExists(String email, String password) {
-        String query = "SELECT role FROM utilisateur WHERE email = ? AND mot_de_passe = ?";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-            pstmt.setString(1, email);
-            pstmt.setString(2, password);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("role");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     public String isExists(String email, String password) {

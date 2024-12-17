@@ -19,14 +19,17 @@ public class Locations extends JFrame {
 
     private JLabel selectedClientLabel; // لعرض اسم العميل المختار
     public DataGridView DataGridView;
+    public JPanel MainPanel;
 
     public Locations() {
-        setTitle("Ajouter une réservation");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 500);
-        setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        //setTitle("Ajouter une réservation");
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setSize(1000, 500);
+        //setLocationRelativeTo(null);
+        
         this.setBackground(new Color(245, 245, 245));
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
         TextFieldStyle1 searchTextField = new TextFieldStyle1();
      
@@ -87,7 +90,7 @@ public class Locations extends JFrame {
         topPanel.add(addButton);
         topPanel.add(deleteButton);
        
-        add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
 
     
         ResultSet data = Locations_CRUD.GetAll(); 
@@ -96,9 +99,15 @@ public class Locations extends JFrame {
         
        
 
-        add(DataGridView, BorderLayout.CENTER);
+        mainPanel.add(DataGridView, BorderLayout.CENTER);
 
-        setVisible(true);
+        //setVisible(true);
+        MainPanel = mainPanel;
+
+    }
+
+    public JPanel getMainPanel(){
+        return MainPanel;
     }
 
     public static void main(String[] args) {

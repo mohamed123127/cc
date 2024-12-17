@@ -1,9 +1,7 @@
 package Entities_CRUD;
 
 import Helpers.DbOperation;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class Locations_CRUD {

@@ -1,9 +1,9 @@
 package Gui;
 
-import javax.swing.*;
-import java.awt.*;
 import CustomControle.*; 
 import Entities_CRUD.*;
+import java.awt.*;
+import javax.swing.*;
 
 public class AdminLoginPage extends JFrame {
     private TextFieldStyle1 usernameField;
@@ -18,7 +18,7 @@ public class AdminLoginPage extends JFrame {
         setResizable(false);
 
       
-        BackgroundPanel panel = new BackgroundPanel("C:/Users/nbena/OneDrive/Bureau/IHM Project/project/CarLocation/src/images/background.jpg"); // ضع مسار الصورة هنا
+        BackgroundPanel panel = new BackgroundPanel("C:\\Users\\DELL\\Desktop\\tous\\University\\L3\\S5\\IHM\\Projet\\Project-Code\\CarLocation\\src\\images\\background.jpg"); // ضع مسار الصورة هنا
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -51,16 +51,15 @@ public class AdminLoginPage extends JFrame {
             String password = new String(passwordField.getPassword()); 
            if(email.isEmpty()){
             JOptionPane.showMessageDialog(null, "Veuillez entrer l'email");
-
            }
            if(password.isEmpty()){
             JOptionPane.showMessageDialog(null, "Veuillez entrer le mot de passe");
-
            }
            if(!email.isEmpty() && !password.isEmpty()){
             String Role = AdminLoginPage_CRUD.IsExsists(email, password);
             if(Role != null){
-                new Locations();
+                MainPage mainPage = new MainPage();
+                mainPage.setVisible(true);
                 dispose();
             }
             else    JOptionPane.showMessageDialog(null, "L'utilisateur n'existe pas");
@@ -76,8 +75,6 @@ public class AdminLoginPage extends JFrame {
         add(panel);
         setVisible(true);
     }
-
-   
  
     class BackgroundPanel extends JPanel {
         private Image backgroundImage;
@@ -97,6 +94,5 @@ public class AdminLoginPage extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this); // رسم الصورة لتغطية اللوحة
             }
         }
-    }}
-
- 
+    }
+}

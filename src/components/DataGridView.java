@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class DataGridView extends JPanel {
     private JTable table;
@@ -43,9 +43,6 @@ public class DataGridView extends JPanel {
 
     public DataGridView(String[] columnNames, ResultSet data, int[] hiddenColumnIndex) {
         this(columnNames, data);
-    public DataGridView(String[] columnNames, ResultSet data, int[] hiddenColumnIndex) {
-        this(columnNames, data);
-
         for (int index : hiddenColumnIndex) {
             if (index >= 0 && index < table.getColumnCount()) {
                 table.getColumnModel().getColumn(index).setMinWidth(0);
