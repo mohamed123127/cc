@@ -1,43 +1,38 @@
 package Gui;
 
+import Entities_CRUD.Car_CRUD;
+import components.DataGridView;
 import java.awt.*;
+import java.sql.ResultSet;
 import java.util.function.Consumer;
 import javax.swing.*;
 
 public class CarSelection extends JFrame {
     public CarSelection(Consumer<Object[]> onCarSelected) {
         setTitle("Select Car");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 300);
-        setLocationRelativeTo(null); // Center the window
+        setSize(600, 500);
+        setLocationRelativeTo(null); 
 
-        // Data for the cars
-        Object[][] cars = {
-            {1, "Car 1", "Model A",499.0},
-            {2, "Car 2", "Model B",400.0},
-            {3, "Car 3", "Model C",299.0},
-            {4, "Car 4", "Model D",999.0}
-        };
-        String[] columnNames = {"ID", "Name", "Model","montantParJour"};
+        String[] columnNames = { "ID", "Marque", "Modele", "Annee", "Type", "Carburant", "Prix par jour", "Etat" };
 
-        // Create a JTable for cars
-        JTable carTable = new JTable(cars, columnNames);
-        JScrollPane scrollPane = new JScrollPane(carTable);
+        ResultSet data = Car_CRUD.GetAll();
+        DataGridView dataGridView = new DataGridView(columnNames, data);
+
+        JScrollPane scrollPane = new JScrollPane(dataGridView);
 
         // Confirm button
         JButton confirmButton = new JButton("Confirm Selection");
         confirmButton.addActionListener(e -> {
-            int selectedRow = carTable.getSelectedRow();
-            if (selectedRow != -1) {
-              
-                Object[] selectedCar = {
-                    carTable.getValueAt(selectedRow, 0), // ID
-                    carTable.getValueAt(selectedRow, 1), // Name
-                    carTable.getValueAt(selectedRow, 2),  // Model
-                    carTable.getValueAt(selectedRow, 3) //montantParJour
-                };
+            Object[] selectedCar = dataGridView.getSelectedRowData();
+            if (selectedCar != null) {
+                // الحصول على السعر لكل يوم من العمود 6
+                
+                
+
                 onCarSelected.accept(selectedCar); 
-                dispose(); 
+                setVisible(false);
+                dispose();
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a car!");
             }

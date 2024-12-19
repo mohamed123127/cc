@@ -1,19 +1,14 @@
 package Gui;
 
-import javax.swing.*;
-import java.awt.*;
-import java.sql.ResultSet;
+import CustomControle.*;
 import Entities_CRUD.Locations_CRUD;
 import components.DataGridView;
-import CustomControle.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
-import java.util.Properties;
 import javax.swing.*;
 
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 public class Locations extends JFrame {
 
@@ -32,7 +27,12 @@ public class Locations extends JFrame {
         mainPanel.setLayout(new BorderLayout());
 
         TextFieldStyle1 searchTextField = new TextFieldStyle1();
-     
+        searchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                DataGridView.filterTable(searchTextField.getText());
+            }
+        });
         ButtonStyle1 addButton = new ButtonStyle1("Ajouter ");
         addButton.addActionListener(e -> {
         
@@ -81,14 +81,26 @@ public class Locations extends JFrame {
 
             }
         }});
-
+        ButtonStyle1 returnCarButton = new ButtonStyle1("Restituer la voiture");
+        returnCarButton.setPreferredSize(new Dimension(150,30));
+        returnCarButton.addActionListener(e->{
+            var selectedRow = DataGridView.getSelectedRowData();
+            if(selectedRow != null){
+                CarDamageEvaluation instance = new CarDamageEvaluation(selectedRow,this);
+                instance.setVisible(true);
+            }else {
+                JOptionPane.showMessageDialog(null, "Aucune ligne sélectionnée");
+            }            
+        });
 
      
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.add(new LabelStyle1("Rechercher:",110,30));
         topPanel.add(searchTextField);
         topPanel.add(addButton);
         topPanel.add(deleteButton);
+        topPanel.add(returnCarButton);
        
         mainPanel.add(topPanel, BorderLayout.NORTH);
 

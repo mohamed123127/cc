@@ -30,7 +30,7 @@ public class AddLocations extends JFrame {
     public AddLocations(Locations instance) {
         setTitle("Add Location");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
+        setSize(500, 350);
         setLocationRelativeTo(null);
         this.setBackground(new Color(245, 245, 245));
 
@@ -41,7 +41,7 @@ public class AddLocations extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         ButtonStyle1 selectClientButton = new ButtonStyle1("Select Client");
-        selectedClientLabel = new LabelStyle1("Selected Client: None", 180, 30);
+        selectedClientLabel = new LabelStyle1("Selected Client: None", 200, 30);
         selectClientButton.addActionListener(e -> {
             new ClientSelection(selectedClient -> {
                 selectedClientId = String.valueOf(selectedClient[0]);
@@ -50,16 +50,22 @@ public class AddLocations extends JFrame {
         });
 
         ButtonStyle1 selectCarButton = new ButtonStyle1("Select Car");
-        LabelStyle1 selectedCarLabel = new LabelStyle1("Selected Car: None", 180, 30);
+        LabelStyle1 selectedCarLabel = new LabelStyle1("Selected Car: None", 200, 30);
 
         selectCarButton.addActionListener(e -> {
             new CarSelection(selectedCarData -> {
+                // اسم السيارة
                 String selectedCarName = (String) selectedCarData[1];
                 selectedCarLabel.setText("Selected Car: " + selectedCarName);
+        
+                // ID للسيارة
                 selectedCarId = String.valueOf(selectedCarData[0]);
-                montantParJour = (double) selectedCarData[3];
+        
+                montantParJour = (Integer) selectedCarData[6];
+        
             });
         });
+        
 
         Properties properties = new Properties();
         properties.put("text.today", "Today");
@@ -76,12 +82,10 @@ public class AddLocations extends JFrame {
         JDatePickerImpl dateFinPicker = new JDatePickerImpl(dateFinPanel, new DateLabelFormatter());
         dateFinPicker.setPreferredSize(new Dimension(150, 30));
 
-        LabelStyle1 montantLabel = new LabelStyle1("Montant Total:");
-        montantField = new TextFieldStyle1();
-        montantField.setEditable(false);  
+         
 
         LabelStyle1 modePaiementLabel = new LabelStyle1("Mode de Paiement:");
-        ComboBoxStyle1 modePaiementComboBox = new ComboBoxStyle1(new String[]{"Carte Bancaire", "Espèces", "Chèque"});
+        ComboBoxStyle1 modePaiementComboBox = new ComboBoxStyle1(new String[]{"Carte Bancaire", "Espèces"});
 
         ButtonStyle1 addButton = new ButtonStyle1("Add");
         addButton.addActionListener(e -> {
@@ -119,7 +123,8 @@ public class AddLocations extends JFrame {
             }
 
             double montantTotal = daysDifference * montantParJour;
-            montantField.setText(String.format("%.2f DA", montantTotal));  
+           // String montantTotalString = (int)montantTotal
+            
 
             String columns1 = "id_client, id_vehicule, date_debut, date_fin, statut";
             String values = selectedClientId + ", " + selectedCarId + ", '" + startDateString + "', '" + endDateString + "', 'en cours'";
@@ -136,7 +141,7 @@ public class AddLocations extends JFrame {
                 selectedCarId = null;
                 selectedClientLabel.setText("Selected Client: None");
                 selectedCarLabel.setText("Selected Car: None");
-                montantField.setText("");  
+               
                 dateDebutPicker.getModel().setValue(null);  
                 dateFinPicker.getModel().setValue(null);  
 
@@ -154,12 +159,9 @@ public class AddLocations extends JFrame {
         });
 
       
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        panel.add(montantLabel, gbc);
+      
 
-        gbc.gridx = 1;
-        panel.add(montantField, gbc);
+       
 
         gbc.gridx = 0;
         gbc.gridy = 6;

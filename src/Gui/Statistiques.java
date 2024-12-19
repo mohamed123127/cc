@@ -1,88 +1,71 @@
 package Gui;
-import javax.swing.*;
+import CustomControle.*;
 import java.awt.*;
-import Helpers.DbOperation;
-import Entities_CRUD.User_CRUD;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
+import javax.swing.*;
 
 public class Statistiques extends JFrame {
     private JPanel centerPanel; // Current center panel reference
+    private JPanel southPanel;  // Current south panel reference
+    public Container MainPanel;
 
     public Statistiques() {
         setTitle("Car Rental Management System - Reporting Section");
         setSize(1000, 800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        setVisible(true);
-        
+
+
+
         // Top Panel with ComboBox
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(Color.BLUE);
-        titlePanel.setLayout(new GridLayout(1, 2));
-    
-        JLabel titleLabel = new JLabel("Car Rental Management System", JLabel.LEFT);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titlePanel.add(titleLabel);
-    
-        JPanel filterPanel = new JPanel();
-        DefaultComboBoxModel<String> filter = new DefaultComboBoxModel<>();
-        filter.addElement("Vehicle Statistics");
-        filter.addElement("Customer Statistics");
-        filter.addElement("Revenue Statistics");
-    
-        JComboBox<String> filterCombo = new JComboBox<>(filter);
-        filterCombo.setSelectedItem("Vehicle Statistics"); // Set default selection
-        filterCombo.setPreferredSize(new Dimension(200, 25));
-        filterPanel.add(filterCombo);
-        titlePanel.add(filterPanel);
-    
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+      
+        String[] types = { "Vehicle Statistics", "Customer Statistics", "Revenue Statistics" };
+        ComboBoxStyle1 typeComboBox = new ComboBoxStyle1(types);
+        // Set default selection
+        typeComboBox.setSelectedItem("Vehicle Statistics");
+        titlePanel.add(typeComboBox);
         add(titlePanel, BorderLayout.NORTH);
-    
-        // Initial Center Panel with Vehicle Statistics
+
+        // Initial Panels
         centerPanel = new StatistiquesVehicule().StatistiquesVehicule();  // Set initial panel to Vehicle Statistics
+        southPanel = new StatistiquesVehicule().tabelStatistiquesVehicule();
         add(centerPanel, BorderLayout.CENTER);
-    
-        // South Panel (Rental History Table)
-        JPanel southPanel = new JPanel();
-        southPanel.setLayout(new BorderLayout());
-    
-        String[] columnNames = {"Vehicle Name", "Client Name", "Rental Dates", "Status"};
-        Object[][] data = {
-                {"SUV", "John Doe", "01/12/2024 - 03/12/2024", "Completed"},
-                {"Sedan", "Jane Smith", "02/12/2024 - 04/12/2024", "Ongoing"},
-                {"Truck", "Alice Johnson", "01/12/2024 - 02/12/2024", "Completed"}
-        };
-        JTable rentalHistoryTable = new JTable(data, columnNames);
-        JScrollPane tableScrollPane = new JScrollPane(rentalHistoryTable);
-        southPanel.add(tableScrollPane, BorderLayout.CENTER);
-        southPanel.setPreferredSize(new Dimension(this.getWidth(), 150));
         add(southPanel, BorderLayout.SOUTH);
-    
+
         // ActionListener for ComboBox
-        filterCombo.addActionListener(new ActionListener() {
+        typeComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selected = (String) filterCombo.getSelectedItem();
-                
-                JPanel newCenterPanel = switchCenterPanel(selected); // Get the panel based on the selection
-    
-                replaceCenterPanel(newCenterPanel); // Replace the current center panel
+                String selected = (String) typeComboBox.getSelectedItem();
+
+                // Switch and replace panels dynamically
+                JPanel newCenterPanel = switchCenterPanel(selected);
+                replaceCenterPanel(newCenterPanel);
+
+                JPanel newSouthPanel = switchSouthPanel(selected);
+                replaceSouthPanel(newSouthPanel);
             }
         });
+
+        //setVisible(true); // Make the frame visible after adding components
     }
-    
 
     // Replace the center panel
     private void replaceCenterPanel(JPanel newPanel) {
         remove(centerPanel); // Remove the old panel
         centerPanel = newPanel; // Update reference
         add(centerPanel, BorderLayout.CENTER); // Add the new panel
+        revalidate(); // Refresh layout
+        repaint(); // Repaint frame
+    }
+
+    // Replace the south panel
+    private void replaceSouthPanel(JPanel newPanel) {
+        remove(southPanel); // Remove the old panel
+        southPanel = newPanel; // Update reference
+        add(southPanel, BorderLayout.SOUTH); // Add the new panel
         revalidate(); // Refresh layout
         repaint(); // Repaint frame
     }
@@ -95,11 +78,28 @@ public class Statistiques extends JFrame {
             case "Customer Statistics":
                 return new StatistiquesCustomers().StatistiquesCustomers();
             case "Revenue Statistics":
-                return new StatistiquesRevenue().StatistiquesRevenue(); 
+                return new StatistiquesRevenue().StatistiquesRevenue();
             default:
-                JPanel defaultPanel = new StatistiquesVehicule().StatistiquesVehicule();
+                JPanel defaultPanel = new JPanel();
                 defaultPanel.setBackground(Color.LIGHT_GRAY);
                 defaultPanel.add(new JLabel("Default Center Panel"));
+                return defaultPanel;
+        }
+    }
+
+    // Switch south panel based on the ComboBox value
+    private JPanel switchSouthPanel(String selected) {
+        switch (selected) {
+            case "Vehicle Statistics":
+                return new StatistiquesVehicule().tabelStatistiquesVehicule();
+            case "Customer Statistics":
+                return new StatistiquesCustomers().tabelStatistiquesCustomers();
+            case "Revenue Statistics":
+                return new StatistiquesRevenue().tabelStatistiquesRevenue();
+            default:
+                JPanel defaultPanel = new JPanel();
+                defaultPanel.setBackground(Color.LIGHT_GRAY);
+                defaultPanel.add(new JLabel("Default South Panel"));
                 return defaultPanel;
         }
     }

@@ -6,6 +6,23 @@ import javax.swing.*;
 public class ComboBoxStyle1 extends JComboBox<String> {
     private CustomComboBoxUI customUI;
 
+    public ComboBoxStyle1(DefaultComboBoxModel<String> items) {
+        super(items);
+
+        // تخصيص الخلفية
+        setBackground(Color.white); // خلفية فاتحة
+        setForeground(new Color(0, 0, 0)); // النص باللون الأسود
+        setPreferredSize(new Dimension(200, 25));
+        // تخصيص الخط
+        setFont(new Font("Arial", Font.PLAIN, 16)); // خط بسيط
+
+        // تخصيص الحد
+        setBorder(BorderFactory.createLineBorder(new Color(0, 102, 204), 1));
+
+        // تخصيص ارتفاع كل عنصر
+        setMaximumRowCount(5); // عدد العناصر المرئية في القائمة المنسدلة
+    }
+
     public ComboBoxStyle1(String[] items) {
         super(items);
 

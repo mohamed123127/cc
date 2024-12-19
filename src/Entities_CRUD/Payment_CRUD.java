@@ -10,7 +10,7 @@ public class Payment_CRUD {
     // Modify montant to double (DECIMAL(10,2) equivalent)
     public static boolean Add(int id_reservation, String type_payment, double montant, String mode_paiement, String date_paiement) {
         // Format the montant to 2 decimal places
-        String montantFormatted = String.format("%.2f", montant);
+        String montantFormatted = String.format("%d", (int) montant);
         boolean isSuccessful = db.Insert("paiement", 
             "id_reservation,type_payment,montant,date_paiement,mode_paiement", 
             String.format("%d,'%s',%s,'%s','%s'", id_reservation, type_payment, montantFormatted, date_paiement, mode_paiement)

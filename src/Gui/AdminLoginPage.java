@@ -1,5 +1,4 @@
 package Gui;
-
 import CustomControle.*; 
 import Entities_CRUD.*;
 import java.awt.*;
@@ -58,7 +57,7 @@ public class AdminLoginPage extends JFrame {
            if(!email.isEmpty() && !password.isEmpty()){
             String Role = AdminLoginPage_CRUD.IsExsists(email, password);
             if(Role != null){
-                MainPage mainPage = new MainPage();
+                MainPage mainPage = new MainPage(Role);
                 mainPage.setVisible(true);
                 dispose();
             }

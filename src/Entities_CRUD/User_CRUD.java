@@ -2,26 +2,48 @@ package Entities_CRUD;
 
 import Helpers.DbOperation;
 import java.sql.ResultSet;
-import javax.swing.JOptionPane;
 
 public class User_CRUD {
-
-    public static void execute() {
-        
-        DbOperation db = new DbOperation();
-        boolean isSuccessful = db.Insert("utilisateur", "nom, prenom, email, mot_de_passe, role", "'mohamed','louahchi','mohamedlouahchi9@gmail.com','mohamed230','admin'");
-        //boolean isSuccessful = db.Update("utilisateur", "email='mohame@sda.asd',mot_de_passe='adsa'","id_utilisateur=10");
-        //boolean isSuccessful = db.Delete("utilisateur", "id_utilisateur=5");
-        if(isSuccessful){
-                        JOptionPane.showMessageDialog(null, "Good");
-        }else{
-            JOptionPane.showMessageDialog(null, "Bad");
-        }
-    }
-
+    private static  DbOperation db = new DbOperation();
     public static ResultSet GetData() {
-        DbOperation db = new DbOperation();
-        ResultSet result = db.GetData("*", "utilisateur");
-        return result;
+        return db.GetData("*", "utilisateur");
     }
+
+    //add customer function
+    public static boolean Insert(String columns, String values) {
+        return db.Insert("utilisateur", columns, values);
+    }
+
+    public static void Update(int id, String nom, String prenom, String email, String mot_de_passe, String role) {
+    String updateQuery = "nom='" + nom + "', " +
+                         "prenom='" + prenom + "', " +
+                         "email='" + email + "', " +
+                         "mot_de_passe='" + mot_de_passe + "', " +
+                         "role='" + role + "'";
+                         
+    // تنفيذ التحديث
+    db.Update("utilisateur", updateQuery, "id=" + id);
+}
+
+    
+    public static boolean Delete(String tableName, String condition) {
+        return db.Delete(tableName, condition);
+    }
+        public static ResultSet GetFilteredData(String searchText, String category) {
+        String condition = "1=1";  // Default: no filter, show all records
+    
+        // Filter by category (if selected)
+        if (!category.equals("Tous")) {
+            condition += " AND type = '" + category + "'";
+        }
+    
+        // Filter by search text (if provided)
+        if (!searchText.isEmpty()) {
+            condition += " AND (marque LIKE '%" + searchText + "%' OR modele LIKE '%" + searchText + "%')";
+        }
+    
+        return db.GetFilltredData("*", "vehicule", condition);
+    }
+
+    
 }

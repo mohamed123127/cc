@@ -6,9 +6,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MainPage extends JFrame {
-    private String SelectedButton = "";
     private JPanel mainPanel;
-    public MainPage() {
+    public MainPage(String Role) {
         this.setSize(1200, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(new Color(245, 245, 245));
@@ -31,7 +30,8 @@ public class MainPage extends JFrame {
         ImageIcon CustomerIcon = ImageHelper.convertIconColor("C:\\Users\\DELL\\Desktop\\tous\\University\\L3\\S5\\IHM\\Projet\\Project-Code\\CarLocation\\src\\Resources\\Icons\\Customer.png",25,25);
         JButton CustomerButton = MainHeaderItem.getNewItem("Client", CustomerIcon);
         CustomerButton.addActionListener(e->{
-
+            Client client = new Client();
+            SetMainPage(client.getMainPanel());
         });
         ImageIcon LocationIcon = ImageHelper.convertIconColor("C:\\Users\\DELL\\Desktop\\tous\\University\\L3\\S5\\IHM\\Projet\\Project-Code\\CarLocation\\src\\Resources\\Icons\\schedule.png",25,25);
         JButton LocationButton = MainHeaderItem.getNewItem("Reservation", LocationIcon);
@@ -42,25 +42,31 @@ public class MainPage extends JFrame {
         ImageIcon StatistiquesIcon = ImageHelper.convertIconColor("C:\\Users\\DELL\\Desktop\\tous\\University\\L3\\S5\\IHM\\Projet\\Project-Code\\CarLocation\\src\\Resources\\Icons\\Statistiques.png",25,25);
         JButton StatistiquesButton = MainHeaderItem.getNewItem("Statistiques", StatistiquesIcon);
         StatistiquesButton.addActionListener(e->{
-
+            Statistiques statistiques = new Statistiques();
+            statistiques.setVisible(true);
         });
         ImageIcon AdminIcon = ImageHelper.convertIconColor("C:\\Users\\DELL\\Desktop\\tous\\University\\L3\\S5\\IHM\\Projet\\Project-Code\\CarLocation\\src\\Resources\\Icons\\Admin.png",25,25);
         JButton AdminButton = MainHeaderItem.getNewItem("administration", AdminIcon);
         AdminButton.addActionListener(e->{
-
+            User user = new User();
+            SetMainPage(user.getMainPanel());
         });
 
         TopPanel.add(carButton);
         TopPanel.add(CustomerButton);
         TopPanel.add(LocationButton);
-        TopPanel.add(AdminButton);
+        if(Role.equals("administrateur")){
+            TopPanel.add(AdminButton);
+        }
         TopPanel.add(StatistiquesButton);
+        carButton.doClick();
 
     }
 
     public void SetMainPage(JPanel Page){
         mainPanel.removeAll();
         if(Page!=null){
+            Page.setPreferredSize(new Dimension(mainPanel.getSize().width,mainPanel.getSize().height));
             mainPanel.add(Page,BorderLayout.CENTER);
             mainPanel.revalidate(); // إعادة تهيئة المكونات
         mainPanel.repaint(); 
@@ -70,9 +76,9 @@ public class MainPage extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+   /*  public static void main(String[] args) {
         MainPage main = new MainPage();
         main.setVisible(true);
         
-    }
+    }*/
 }

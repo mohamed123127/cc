@@ -1,12 +1,19 @@
 package Helpers;
 
 import Config.Database;
+
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -134,6 +141,26 @@ public class DbOperation {
 
     
 
+    public String isExists(String email, String password) {
+        String query = "SELECT role FROM utilisateur WHERE email = ? AND mot_de_passe = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("role");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public boolean Insert(String tableName, String columns, String values) {
         try {
             query = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + values + ")";
@@ -228,35 +255,45 @@ public class DbOperation {
         }
         return value;
     }
-    public double[] getSpecialValueFromRow(ResultSet rs,String colum) {
-        
-        double []frequency=new double[5];
-        int i=0;
-        double total=0;
-        try {
-            // Move the cursor to the third row
-            while (rs.next()) {
-               if(i<5)
-               frequency[i]=rs.getDouble(colum);
-               total=total+rs.getDouble(colum);
-               i++;
-            }
-            i=0;
-            double value;
-            while (i<5) {
-                value=frequency[i];
-                frequency[i]=(value/total)*100;
+    public double[] getSpecialValueFromRow(ResultSet rs, String colum) {
+    double[] frequency = new double[5];
+    int i = 0;
+    double total = 0;
+
+    try {
+        // Populate the frequency array and calculate the total
+        while (rs.next()) {
+            if (i < 5) {
+                double value = rs.getDouble(colum);
+
+                // Round each value to two decimal places before storing
+                frequency[i] = new BigDecimal(value)
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue();
+                total += value;
                 i++;
             }
-        } catch (SQLException e) {
-            // Handle the SQLException
-            System.err.println("SQL Exception: " + e.getMessage());
-            e.printStackTrace();
         }
-        
-        return frequency;
+
+        // Reset index to process percentages
+        i = 0;
+
+        // Compute percentages and round to two decimal places
+        while (i < 5) {
+            double value = frequency[i];
+            frequency[i] = new BigDecimal((value / total) * 100)
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue();
+            i++;
+        }
+    } catch (SQLException e) {
+        // Handle the SQLException
+        System.err.println("SQL Exception: " + e.getMessage());
+        e.printStackTrace();
     }
 
+    return frequency;
+}
     public long [] countdays(ResultSet rs){
         long days[]=new long[5];
         int i=0;

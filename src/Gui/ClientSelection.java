@@ -1,48 +1,44 @@
 package Gui;
 
 import java.awt.*;
+import java.sql.ResultSet;
 import java.util.function.Consumer;
 import javax.swing.*;
 
+import Entities_CRUD.Car_CRUD;
+import Entities_CRUD.Customers_CRUD;
+import components.DataGridView;
+
 public class ClientSelection extends JFrame {
- 
-    public ClientSelection(Consumer<Object[]> onClientSelected) {
-        setTitle("Select Client");
+    public ClientSelection(Consumer<Object[]> onCarSelected) {
+        setTitle("Select Car");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 300);
+        setSize(600, 500);
+        setLocationRelativeTo(null); 
 
-  
-        Object[][] clients = {
-            {1, "Nazim", "nazim@gmail.com"},
-            {2, "Yasser", "yasser@gmail.com"},
-            {3, "Moh.L", "mohl@gmail.com"},
-            {4, "Moh.T", "moht@gmail.com"},
-            {5, "Moh.S", "mohS@gmail.com"}
-        };
-        String[] columnNames = {"ID", "Name", "Email"};
+        String[] columnNames = { "id_client ", "nom", "prenom", "telephone", "email", "numero_permis"};
 
-    
-        JTable clientTable = new JTable(clients, columnNames);
-        JScrollPane scrollPane = new JScrollPane(clientTable);
+        ResultSet data = Customers_CRUD.GetData();
+        DataGridView dataGridView = new DataGridView(columnNames, data);
 
-   
+        JScrollPane scrollPane = new JScrollPane(dataGridView);
+
+        // Confirm button
         JButton confirmButton = new JButton("Confirm Selection");
         confirmButton.addActionListener(e -> {
-            int selectedRow = clientTable.getSelectedRow();
-            if (selectedRow != -1) {
-             
-                Object[] selectedClient = {
-               clientTable.getValueAt(selectedRow, 0), // ID
-                 clientTable.getValueAt(selectedRow, 1), // Name
-                    clientTable.getValueAt(selectedRow, 2)  // Email
-                };
-                onClientSelected.accept(selectedClient); 
+            Object[] selectedCar = dataGridView.getSelectedRowData();
+            if (selectedCar != null) {
+               
+
+                onCarSelected.accept(selectedCar); 
+                setVisible(false);
                 dispose(); 
             } else {
-                JOptionPane.showMessageDialog(this, "Please select a client!");
+                JOptionPane.showMessageDialog(this, "Please select a car!");
             }
         });
 
+        // Layout setup
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         add(confirmButton, BorderLayout.SOUTH);

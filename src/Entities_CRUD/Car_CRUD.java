@@ -1,7 +1,8 @@
 package Entities_CRUD;
 
 import Helpers.DbOperation;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Car_CRUD {
     private static  DbOperation db = new DbOperation();
@@ -9,7 +10,19 @@ public class Car_CRUD {
     public static void UpdateStatus(int id_car,String statut){
         db.Update("vehicule","etat='" + statut + "'","id_vehicule=" + id_car);
     }
-       public static ResultSet GetAll(){
+    
+    public static void Update(int id_car, String marque, String modele, int annee, String type, String carburant, int prix_location_jour) {
+        String updateQuery = "marque='" + marque + "', " +
+                         "modele='" + modele + "', " +
+                         "annee=" + annee + ", " +
+                         "type='" + type + "', " +
+                         "carburant='" + carburant + "', " +
+                         "prix_location_jour=" + prix_location_jour ;    
+    // تنفيذ التحديث
+    db.Update("vehicule", updateQuery, "id_vehicule=" + id_car);
+    }
+
+    public static ResultSet GetAll(){
         ResultSet data = db.GetData("*", "vehicule");
         return data;
     }
@@ -30,13 +43,10 @@ public class Car_CRUD {
     }
 
 
-    public static ResultSet GetFilteredData(String searchText, String category) {
+    public static ResultSet GetFilteredData(String searchText) {
         String condition = "1=1";  // Default: no filter, show all records
     
-        // Filter by category (if selected)
-        if (!category.equals("Tous")) {
-            condition += " AND type = '" + category + "'";
-        }
+       
     
         // Filter by search text (if provided)
         if (!searchText.isEmpty()) {
@@ -45,10 +55,9 @@ public class Car_CRUD {
     
         return db.GetFilltredData("*", "vehicule", condition);
     }
+
     
-
-
-   public static int getLocationPrice(int id_car) {
+    public static int getLocationPrice(int id_car) {
         try {
             ResultSet resultSet = db.GetFilltredData("prix_location_jour", "vehicule", "id_vehicule = " + id_car);
             if (resultSet.next()) {
@@ -59,4 +68,5 @@ public class Car_CRUD {
         }
         return 0; 
     }
+
 }
